@@ -1,0 +1,10 @@
+npm run dev  <- torun on the local host 
+
+database on Neon Console
+https://console.neon.tech/app/projects/lingering-morning-58656975/branches/br-little-mode-a8yp6r4x/tables?database=PrepurAI
+
+
+used clerk.com for authentication
+https://dashboard.clerk.com/apps/app_2yg60fJWXPfmq657wGAOvwoXOMz/instances/ins_2yg60fHWbOtzvR3gCuH7zmCWRBH
+
+used vercel for deployment
