@@ -27,7 +27,7 @@ if('speechSynthesis' in window){
                     <Lightbulb/>
                     <strong>Note:</strong>
                 </h2>
-                <h2 className='text-sm text-primary my-2'>Enable Video Web Cam and Microphone to Start your AI Generated Mock Interview, It Has 5 questions which you can answer and at last you will get the report on the basis of your answer . NOTE: We never record your video, Web cam access you can disable at any time if you want</h2>
+                <h2 className='text-sm text-primary my-2'>Enable Webcam and Microphone to Start your AI Generated Mock Interview. It has {process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} questions which you can answer, after which you will get the feedback report on the basis of your answers. NOTE: We never record your video, you can disable webcam access at any time if you want.</h2>
             </div>
     </div>
   )
