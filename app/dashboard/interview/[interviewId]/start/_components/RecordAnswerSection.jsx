@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useState, useRef } from "react";
 import { Mic, StopCircle, Loader2, Camera, CameraOff } from "lucide-react";
@@ -10,10 +11,15 @@ import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 
 const RecordAnswerSection = ({ 
-  mockInterviewQuestion, 
-  activeQuestionIndex, 
-  interviewData, 
+  mockInterviewQuestion,
+  activeQuestionIndex,
+  interviewData,
   onAnswerSave,
+  onPrevious,
+  onNext,
+  isFirstQuestion,
+  isLastQuestion,
+  mockId,
 }) => {
   const [userAnswer, setUserAnswer] = useState("");
   const { user } = useUser();
@@ -152,7 +158,7 @@ const RecordAnswerSection = ({
           <p className="text-white text-lg">Saving your answer...</p>
         </div>
       )}
-      <div className="flex flex-col my-20 justify-center items-center bg-black rounded-lg p-5">
+      <div className="flex flex-col my-5 justify-center items-center bg-black rounded-lg p-5">
         {webcamEnabled ? (
           <video 
             ref={webcamRef} 
@@ -186,7 +192,7 @@ const RecordAnswerSection = ({
       <Button
         disabled={loading}
         variant="outline"
-        className="my-10"
+        className="my-4"
         onClick={StartStopRecording}
       >
         {isRecording ? (
@@ -207,17 +213,42 @@ const RecordAnswerSection = ({
         onChange={(e) => setUserAnswer(e.target.value)}
       />
     
-      <Button
-        className="mt-4"
-        onClick={UpdateUserAnswer}
-        disabled={loading || !userAnswer.trim()}
-      >
-        {loading ? (
-          <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</>
-        ) : (
-          "Save Answer"
-        )}
-      </Button>
+      <div className="flex justify-between items-center w-full mt-4">
+        <div className="w-[160px]">
+          {!isFirstQuestion && (
+            <Button variant="outline" onClick={onPrevious}>
+              Previous Question
+            </Button>
+          )}
+        </div>
+
+        <Button
+          onClick={UpdateUserAnswer}
+          disabled={loading || !userAnswer.trim()}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            "Save Answer"
+          )}
+        </Button>
+
+        <div className="w-[160px] flex justify-end">
+          {!isLastQuestion ? (
+            <Button variant="outline" onClick={onNext}>
+              Next Question
+            </Button>
+          ) : (
+            <Link href={`/dashboard/interview/${mockId}/feedback`}>
+              <Button>End Interview</Button>
+            </Link>
+          )}
+        </div>
+
+      </div>
     </div>
   );
 };
