@@ -92,6 +92,7 @@ function AddNewInterview() {
     Generate ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} interview questions and answers in JSON format.`;
 
     try{
+      // Primary model attempt
       try {
         const result = await chatSession.sendMessage(inputPrompt);
         const mockResponse = JSON.parse(result.response.text());
@@ -104,6 +105,13 @@ function AddNewInterview() {
         console.warn("Primary model failed, trying fallback:", error);
       }
 
+      // Fallback model attempt
+      const fallbackResult = await fallbackChatSession.sendMessage(inputPrompt);
+      const fallbackMockResponse = JSON.parse(fallbackResult.response.text());
+      setJsonResponse(fallbackResult.response.text());
+      if (fallbackMockResponse) {
+        await handleSuccess(fallbackMockResponse);
+      }
 
     } catch (error) {
       console.error("Error generating interview with both models:", error);

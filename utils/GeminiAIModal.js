@@ -11,6 +11,10 @@ const primaryModel = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
 });
 
+const fallbackModel = genAI.getGenerativeModel({
+  model: "gemini-pro",
+});
+
 const generationConfig = {
   temperature: 1,
   topP: 0.95,
