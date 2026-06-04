@@ -49,8 +49,7 @@ const TECH_STACK_SUGGESTIONS = {
   'UI/UX Designer': 'Figma, Sketch, Adobe XD, InVision'
 };
 
-function AddNewInterview() {
-  const [openDialog, setOpenDialog] = useState(false);
+function AddNewInterview({ isOpen, setIsOpen }) {
   const [jobPosition, setJobPosition] = useState();
   const [jobDescription, setJobDescription] = useState();
   const [jobExperience, setJobExperience] = useState();
@@ -125,11 +124,11 @@ function AddNewInterview() {
     <div>
       <div
         className="p-10 border rounded-lg bg-secondary hover:scale-105 hover:shadow-md cursor-pointer transition-all"
-        onClick={() => setOpenDialog(true)}
+        onClick={() => setIsOpen(true)}
       >
         <h1 className="font-bold text-lg text-center">+ Add New</h1>
       </div>
-      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl">
@@ -188,7 +187,7 @@ function AddNewInterview() {
                   </div>
                 </div>
                 <div className="flex gap-5 justify-end">
-                  <Button type="button" variant="ghost" onClick={() => setOpenDialog(false)}>
+                  <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>
                     Cancel
                   </Button>
                   <Button type="submit" disabled={loading}>

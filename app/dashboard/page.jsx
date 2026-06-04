@@ -171,9 +171,9 @@ function Dashboard() {
 
         {/* Add New Interview Component */}
         <div className='grid grid-cols-1 sm:grid-cols-3 gap-6'>
-          <AddNewInterview 
-            isOpen={isNewInterviewModalOpen} 
-            onClose={() => setIsNewInterviewModalOpen(false)} 
+          <AddNewInterview
+            isOpen={isNewInterviewModalOpen}
+            setIsOpen={setIsNewInterviewModalOpen}
           />
         </div>
       </div>
