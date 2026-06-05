@@ -28,6 +28,8 @@ const RecordAnswerSection = ({
   const [webcamEnabled, setWebcamEnabled] = useState(false);
   const recognitionRef = useRef(null);
   const webcamRef = useRef(null);
+  const [stream, setStream] = useState(null);
+  const [cameraLoading, setCameraLoading] = useState(true);
 
   useEffect(() => {
     // Speech recognition setup (previous code remains the same)
@@ -63,21 +65,45 @@ const RecordAnswerSection = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (webcamEnabled && stream && webcamRef.current) {
+      webcamRef.current.srcObject = stream;
+    }
+  }, [webcamEnabled, stream]);
+
   const EnableWebcam = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (webcamRef.current) {
-        webcamRef.current.srcObject = stream;
-      }
+      console.log("Enable webcam clicked");
+
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      });
+
+      console.log("Stream received:", mediaStream);
+
+      setStream(mediaStream);
       setWebcamEnabled(true);
+      setCameraLoading(false);
+
       toast.success("Webcam enabled successfully");
     } catch (error) {
-      toast.error("Failed to enable webcam", {
-        description: "Please check your camera permissions"
-      });
       console.error("Webcam error:", error);
+      setCameraLoading(false);
+
+      toast.error("Failed to enable webcam", {
+        description: error.message,
+      });
     }
   };
+
+  useEffect(() => {
+    EnableWebcam();
+    return () => {
+      const tracks = webcamRef.current?.srcObject?.getTracks();
+      tracks?.forEach(track => track.stop());
+    };
+  }, []);
 
   const DisableWebcam = () => {
     const tracks = webcamRef.current?.srcObject?.getTracks();
@@ -159,16 +185,21 @@ const RecordAnswerSection = ({
         </div>
       )}
       <div className="flex flex-col my-5 justify-center items-center bg-black rounded-lg p-5">
-        {webcamEnabled ? (
-          <video 
-            ref={webcamRef} 
-            autoPlay 
-            playsInline 
-            className="w-[200px] h-[200px] object-cover rounded-lg"
+        {cameraLoading ? (
+          <div className="w-[200px] h-[200px] flex justify-center items-center bg-gray-200 rounded-lg">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        ) : webcamEnabled ? (
+          <video
+            ref={webcamRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-[200px] h-[200px] object-cover rounded-lg scale-x-[-1]"
           />
         ) : (
           <div className="w-[200px] h-[200px] flex justify-center items-center bg-gray-200 rounded-lg">
-            <p className="text-gray-500">Webcam Disabled</p>
+            <p className="text-gray-500">Camera Access Denied</p>
           </div>
         )}
         

@@ -29,7 +29,9 @@ const StartInterview = ({ params }) => {
       
       const jsonMockResp = JSON.parse(result[0].jsonMockResp);
       // Assuming the questions are in a 'questions' property
-      setMockInterviewQuestion(jsonMockResp.questions || jsonMockResp);
+      console.log("jsonMockResp:", jsonMockResp);
+      console.log("interview_questions:", jsonMockResp.interview_questions);
+      setMockInterviewQuestion(jsonMockResp);
       setInterviewData(result[0]);
     } catch (error) {
       console.error("Failed to fetch interview details:", error);
