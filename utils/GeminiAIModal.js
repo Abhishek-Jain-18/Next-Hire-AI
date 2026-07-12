@@ -3,7 +3,6 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/ge
 const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
-// ✅ Both are current, free, working models as of 2026
 const primaryModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 const fallbackModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
